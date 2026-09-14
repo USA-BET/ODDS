@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>odds</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+/* FIXED: allow scrolling */
+html,body{
+  width:100%;
+  min-height:100%;
+  overflow-y:auto;
+  overflow-x:hidden;
+}
+
+body{
+  font-family:Arial, sans-serif;
+  background:#000;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start; /* start from top so top bar shows */
+  padding:10px;
+}
+
+/* MAIN CONTAINER */
+.container{
+  width:100%;
+  max-width:430px;
+  min-height:100vh;
+  background:#050505;
+  padding:12px;
+  color:#f5d67b;
+}
+
+/* TOP BAR */
+.top-bar{
+  display:flex;
+  gap:6px;
+  margin-bottom:12px;
+  position:sticky;
+  top:0;
+  background:#050505;
+  z-index:10;
+  padding-bottom:8px;
+}
+
+.top-bar span{
+  flex:1;
+  text-align:center;
+  background:#111;
+  color:#ff2b2b;
+  padding:10px 4px;
+  font-size:12px;
+  font-weight:bold;
+  border-radius:8px;
+  cursor:pointer;
+  border:1px solid #222;
+}
+
+/* MATCHES */
+.matches{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.match{
+  background:#101010;
+  border:1px solid #1f1f1f;
+  border-radius:10px;
+  padding:10px 6px;
+  text-align:center;
+}
+
+.match p{
+  font-size:12px;
+  line-height:1.4;
+}
+
+.number{
+  color:#ff2b2b;
+  font-weight:bold;
+}
+
+.vrs{
+  color:#fff;
+  padding:0 4px;
+}
+
+.green{
+  color:#00ff88;
+  font-weight:bold;
+  margin-top:2px;
+}
+
+/* BET BOX */
+.bet-box{
+  background:linear-gradient(to bottom,#c28b6a,#a56e4f);
+  padding:12px;
+  border-radius:12px;
+  margin-top:12px;
+  text-align:center;
+  color:#5a0000;
+}
+
+/* TITLE */
+.bet-box h3{
+  font-size:13px;
+  color:#000;
+  margin-bottom:8px;
+  animation:blink 3s infinite;
+}
+
+@keyframes blink{
+  0%{opacity:1;}
+  50%{opacity:0.45;}
+  100%{opacity:1;}
+}
+
+/* YES NO */
+.yes-no{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:6px;
+  margin-bottom:10px;
+}
+
+.group{
+  flex:1;
+  background:rgba(255,255,255,0.15);
+  border-radius:8px;
+  padding:6px 3px;
+  font-size:11px;
+}
+
+.group b{
+  display:block;
+  font-size:14px;
+}
+
+.arrow{
+  display:block;
+  font-size:15px;
+  margin:2px 0;
+}
+
+.or{
+  font-size:11px;
+  font-weight:bold;
+}
+
+/* BUTTON */
+.bet-btn{
+  width:100%;
+  background:#a80000;
+  color:#fff;
+  border:none;
+  padding:11px;
+  font-size:14px;
+  font-weight:bold;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+/* LINK */
+.more{
+  margin-top:8px;
+  font-size:12px;
+  color:#000;
+  font-weight:bold;
+  text-decoration:underline;
+  cursor:pointer;
+}
+
+/* SMALL PHONES */
+@media(max-width:360px){
+
+  .top-bar span{
+    font-size:11px;
+    padding:8px 2px;
+  }
+
+  .match p{
+    font-size:11px;
+  }
+
+  .bet-box h3{
+    font-size:12px;
+  }
+
+  .bet-btn{
+    font-size:13px;
+  }
+}
+
+/* VIEW ODDS RESULT */
+.odds-result{
+  margin-top:8px;
+}
+
+.home-away{
+  background:#00ff88;
+  color:#000;
+  padding:9px;
+  border-radius:8px;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.signup-message{
+  background:#f5d67b;
+  color:#000;
+  padding:10px;
+  border-radius:8px;
+  font-size:12px;
+  line-height:1.5;
+}
+
+.signup-message strong{
+  display:block;
+  margin-bottom:5px;
+}
+
+.signup-message a{
+  color:#a80000;
+  font-weight:bold;
+  text-decoration:underline;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- TOP -->
+  <div class="top-bar">
+    <span onclick="deposit()">YESTERDAY</span>
+    <span onclick="login()">MATCHES</span>
+    <span onclick="withdraw()">SIGN UP</span>
+  </div>
+
+  <!-- MATCHES -->
+  <div class="matches">
+
+    <div class="match">
+      <p><span class="number">1.</span>LEEDS UNITED <span class="vrs">VRS</span>NEWCASTLE</p>
+      <button class="bet-btn" onclick="viewOdds(1)">VIEW ODDS</button>
+      <div id="odds1" class="odds-result"></div>
+    </div>
+
+    <div class="match">
+      <p><span class="number">2.</span>VILLAREAL <span class="vrs">VRS</span> REAL BETIS</p>
+      <button class="bet-btn" onclick="viewOdds(2)">VIEW ODDS</button>
+      <div id="odds2" class="odds-result"></div>
+    </div>
+
+    <div class="match">
+      <p><span class="number">3.</span>COMO 1907 <span class="vrs">VRS</span> PARMA</p>
+      <button class="bet-btn" onclick="viewOdds(3)">VIEW ODDS</button>
+      <div id="odds3" class="odds-result"></div>
+    </div>
+
+    <div class="match">
+      <p><span class="number">4.</span>TORINO <span class="vrs">VRS</span> AS ROMA</p>
+      <button class="bet-btn" onclick="viewOdds(4)">VIEW ODDS</button>
+      <div id="odds4" class="odds-result"></div>
+    </div>
+
+    <div class="match">
+      <p><span class="number">5.</span>INTER <span class="vrs">VRS</span> UDINESE</p>
+      <button class="bet-btn" onclick="viewOdds(5)">VIEW ODDS</button>
+      <div id="odds5" class="odds-result"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function deposit(){
+  window.location.href="https://krampah.com/yesty.html";
+}
+
+function login(){
+  window.location.href="https://krampah.com/countries.html";
+}
+
+function withdraw(){
+  window.location.href="https://krampah.com/countries.html";
+}
+
+function goToBet(){
+  window.location.href="https://t.me/+SvqEThTpS780Mjhk";
+}
+
+function moreBets(){
+  window.location.href="https://krampah.com/countries.html";
+}
+
+/* VIEW ODDS */
+function viewOdds(matchNumber){
+  var result = document.getElementById("odds" + matchNumber);
+
+  if(matchNumber === 1 || matchNumber === 2){
+    result.innerHTML = '<div class="home-away">HOME OR AWAY</div>';
+  } else {
+    result.innerHTML =
+      '<div class="signup-message">' +
+        '<strong>SIGN UP TO GET BET ODDS FOR ALL 5 MATCHES</strong>' +
+        '<a href="https://krampah.com/countries.html">CLICK HERE TO SIGN UP</a>' +
+      '</div>';
+  }
+}
+</script>
+
+</body>
+</html>
